@@ -1,34 +1,44 @@
+let myWidth = 20; // i meter
+let myHeight =40;
+
+let x= myWidth*2; //500 mm i bredde og høyde
+let y = myHeight*2;
+
 let canvas = document.querySelector("canvas"); 
-canvas.width = window.innerWidth/2; 
-canvas.height = window.innerWidth/2; 
+makeCanvas(myWidth,myHeight);
 let c = canvas.getContext('2d');
+
+grid(); 
 
 let gridSize = 40;
 
+function makeCanvas(x,y){
+    canvas.width = window.innerWidth/2; 
+    canvas.height = window.innerWidth/2*(y/x); 
+}
 
-function grid(gridSize){
-    width = canvas.width / gridSize; 
-    
-    for(let i= 0; i<= gridSize; i++){
-        for(let j =0; j<= gridSize; j++){ 
-
+function grid(){
+    width = canvas.width / x;
+    height = canvas.height/ y;  
+    for(let i= 0; i<= x; i++){
+        for(let j =0; j<= y; j++){ 
             c.beginPath();
-            c.rect(width*j,width*i, width, width);
+            c.rect(width*i,height*j, width, height);
             c.stroke();
         } 
     }           
 }
 
 function gridUpdate(event){
-    console.log("sort");
-    width = canvas.width / gridSize; 
-    for(let i= 0; i<= gridSize; i++){
-        for(let j =0; j<= gridSize; j++){
+    width = canvas.width / x;
+    height = canvas.height/ y; 
+    for(let i= 0; i<= x; i++){
+        for(let j =0; j<= y; j++){
             c.beginPath();
             c.fillStyle = 'black';
-            c.rect(width*j,width*i, width, width);
-            if(event.offsetX>=width*j && event.offsetX<=width*(j+1)
-            && event.offsetY>= width*i && event.offsetY <= width*(i+1)){
+            c.rect(width*i,height*j, width, height);
+            if(event.offsetX>=width*i && event.offsetX<width*(i+1)
+            && event.offsetY>= height*j && event.offsetY < height*(j+1)){
                 c.fill();
             } 
             else{
@@ -39,19 +49,19 @@ function gridUpdate(event){
 }
 
 function gridUpdateObsticle(event){
-    console.log("hvit");
-    width = canvas.width / gridSize; 
-    for(let i= 0; i<= gridSize; i++){
-        for(let j =0; j<= gridSize; j++){
+    width = canvas.width / x;
+    height = canvas.height/ y; 
+    for(let i= 0; i<= x; i++){
+        for(let j =0; j<= y; j++){
             c.beginPath();
             c.fillStyle = 'white';
-            c.rect(width*j,width*i, width, width);
-            if(event.offsetX>=width*j && event.offsetX<=width*(j+1)
-            && event.offsetY>= width*i && event.offsetY <= width*(i+1)){
+            c.rect(width*i,height*j, width, height);
+            if(event.offsetX>=width*i && event.offsetX< width*(i+1)
+            && event.offsetY>= height*j && event.offsetY < height*(j+1)){
                 c.fill();
             } 
             else{
-                c.stroke();
+                 c.stroke();
             }
         } 
     }           
