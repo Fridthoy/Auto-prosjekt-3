@@ -67,22 +67,48 @@ function gridUpdateObsticle(event){
     }           
 }
 
-//grid(gridSize);
+
+function removeUpdate(event){
+    width = canvas.width / x;
+    height = canvas.height/ y; 
+    for(let i= 0; i<= x; i++){
+        for(let j =0; j<= y; j++){
+            c.beginPath();
+            c.fillStyle = 'blueviolet';
+            c.rect(width*i,height*j, width, height);
+            if(event.offsetX>=width*i && event.offsetX< width*(i+1)
+            && event.offsetY>= height*j && event.offsetY < height*(j+1)){
+                c.fill();
+            } 
+            else{
+                 c.stroke();
+            }
+        } 
+    }           
+}
+
 
 
 let point = document.getElementById('point'); 
 let obstacle = document.getElementById('obstacle');
 
 
-function pointEvent(event){
+function pointEvent(){
     canvas.removeEventListener('mousedown', gridUpdateObsticle);
+    canvas.removeEventListener('mousedown', removeUpdate);
     canvas.addEventListener('mousedown',gridUpdate);
 }
 
 function obsticleEvent(){
-    canvas.removeEventListener('mousedown',gridUpdate);
+    canvas.removeEventListener('mousedown', gridUpdateObsticle);
+    canvas.removeEventListener('mousedown', removeUpdate);
     canvas.addEventListener('mousedown', gridUpdateObsticle);
 }
-
+function removeEvent(){
+    canvas.removeEventListener('mousedown', gridUpdateObsticle);
+    canvas.removeEventListener('mousedown', gridUpdateObsticle);
+    canvas.addEventListener('mousedown', removeUpdate);
+}
 point.addEventListener('click',pointEvent);
 obstacle.addEventListener('click', obsticleEvent);
+remove.addEventListener('click', removeEvent)
