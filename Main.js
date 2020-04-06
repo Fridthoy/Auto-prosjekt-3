@@ -1,23 +1,19 @@
-let myWidth = 20; // i meter
-let myHeight =40;
-
-let x= myWidth*2; //500 mm i bredde og høyde
-let y = myHeight*2;
 
 let canvas = document.querySelector("canvas"); 
-makeCanvas(myWidth,myHeight);
 let c = canvas.getContext('2d');
 
-grid(); 
+let x = 0;
+let y = 0; 
 
-let gridSize = 40;
+let points = [];
+let obsticles = []; 
 
 function makeCanvas(x,y){
     canvas.width = window.innerWidth/2; 
     canvas.height = window.innerWidth/2*(y/x); 
 }
 
-function grid(){
+function grid(x,y){
     width = canvas.width / x;
     height = canvas.height/ y;  
     for(let i= 0; i<= x; i++){
@@ -30,6 +26,8 @@ function grid(){
 }
 
 function gridUpdate(event){
+    console.log('b');
+    console.log(x); 
     width = canvas.width / x;
     height = canvas.height/ y; 
     for(let i= 0; i<= x; i++){
@@ -40,6 +38,8 @@ function gridUpdate(event){
             if(event.offsetX>=width*i && event.offsetX<width*(i+1)
             && event.offsetY>= height*j && event.offsetY < height*(j+1)){
                 c.fill();
+                points.push([i*2,j*2])
+                document.getElementById('myList').innerHTML = points;                
             } 
             else{
                  c.stroke();
@@ -54,7 +54,7 @@ function gridUpdateObsticle(event){
     for(let i= 0; i<= x; i++){
         for(let j =0; j<= y; j++){
             c.beginPath();
-            c.fillStyle = 'white';
+            c.fillStyle = 'red';
             c.rect(width*i,height*j, width, height);
             if(event.offsetX>=width*i && event.offsetX< width*(i+1)
             && event.offsetY>= height*j && event.offsetY < height*(j+1)){
@@ -74,7 +74,7 @@ function removeUpdate(event){
     for(let i= 0; i<= x; i++){
         for(let j =0; j<= y; j++){
             c.beginPath();
-            c.fillStyle = 'blueviolet';
+            c.fillStyle = 'azure';
             c.rect(width*i,height*j, width, height);
             if(event.offsetX>=width*i && event.offsetX< width*(i+1)
             && event.offsetY>= height*j && event.offsetY < height*(j+1)){
@@ -86,6 +86,18 @@ function removeUpdate(event){
         } 
     }           
 }
+
+
+//setting gridSize: 
+let submit = document.getElementById('submit'); 
+submit.addEventListener('click',function(){
+    let myWidth = document.getElementById('width').value; // i meter
+    let myHeight =document.getElementById('height').value;
+    makeCanvas(myWidth,myHeight);
+    x= myWidth*2; //500 mm i bredde og høyde
+    y = myHeight*2;
+    grid(x,y);
+})
 
 
 
