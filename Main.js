@@ -26,8 +26,7 @@ function grid(x,y){
 }
 
 function gridUpdate(event){
-    console.log('b');
-    console.log(x); 
+    console.log("b");
     width = canvas.width / x;
     height = canvas.height/ y; 
     for(let i= 0; i<= x; i++){
@@ -38,8 +37,17 @@ function gridUpdate(event){
             if(event.offsetX>=width*i && event.offsetX<width*(i+1)
             && event.offsetY>= height*j && event.offsetY < height*(j+1)){
                 c.fill();
-                points.push([i*2,j*2])
-                document.getElementById('myList').innerHTML = points;                
+                points.push([i,j])
+                for(let i = 0; i< points.length; i++){
+                    let point = points[i];
+                    if(i==0){
+                        pointString = '<li>'+points[0]+'</li>'
+                    }
+                    else{
+                        pointString += '<li>'+point+'</li>';        
+                    }
+                }
+                document.getElementById('myList').innerHTML = pointString;
             } 
             else{
                  c.stroke();
@@ -49,6 +57,7 @@ function gridUpdate(event){
 }
 
 function gridUpdateObsticle(event){
+    console.log("obstic")
     width = canvas.width / x;
     height = canvas.height/ y; 
     for(let i= 0; i<= x; i++){
@@ -69,6 +78,7 @@ function gridUpdateObsticle(event){
 
 
 function removeUpdate(event){
+    console.log("remove");
     width = canvas.width / x;
     height = canvas.height/ y; 
     for(let i= 0; i<= x; i++){
@@ -103,6 +113,7 @@ submit.addEventListener('click',function(){
 
 let point = document.getElementById('point'); 
 let obstacle = document.getElementById('obstacle');
+let remove = document.getElementById('remove');
 
 
 function pointEvent(){
@@ -112,15 +123,16 @@ function pointEvent(){
 }
 
 function obsticleEvent(){
-    canvas.removeEventListener('mousedown', gridUpdateObsticle);
+    canvas.removeEventListener('mousedown', gridUpdate);
     canvas.removeEventListener('mousedown', removeUpdate);
     canvas.addEventListener('mousedown', gridUpdateObsticle);
 }
+
 function removeEvent(){
-    canvas.removeEventListener('mousedown', gridUpdateObsticle);
+    canvas.removeEventListener('mousedown', gridUpdate);
     canvas.removeEventListener('mousedown', gridUpdateObsticle);
     canvas.addEventListener('mousedown', removeUpdate);
 }
 point.addEventListener('click',pointEvent);
 obstacle.addEventListener('click', obsticleEvent);
-remove.addEventListener('click', removeEvent)
+remove.addEventListener('click', removeEvent);
